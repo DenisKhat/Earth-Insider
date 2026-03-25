@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c4mtn0gwtgi4d"]
+
+[ext_resource type="Texture2D" uid="uid://b817irsptxbtu" path="res://icon.svg" id="1_mlf6e"]
+
+[node name="GameScene" type="Control" unique_id=1519156721]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=1213315849]
+position = Vector2(151, 343)
+texture = ExtResource("1_mlf6e")
+
+[node name="Icon2" type="Sprite2D" parent="." unique_id=1429272407]
+position = Vector2(819, 258)
+texture = ExtResource("1_mlf6e")

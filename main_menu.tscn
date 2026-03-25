@@ -1,0 +1,441 @@
+[gd_scene format=3 uid="uid://deo2lgi1uiwre"]
+
+[ext_resource type="FontFile" uid="uid://bt1wanqci0u0i" path="res://fonts/Handwriting-Regular.otf" id="1_06t4h"]
+[ext_resource type="Script" uid="uid://dsg5snl3vbq71" path="res://main_menu.gd" id="1_jix8l"]
+[ext_resource type="FontFile" uid="uid://bsajhddu1w3lt" path="res://fonts/Terminal F4.ttf" id="2_7vrkn"]
+[ext_resource type="Shader" uid="uid://bgncadfdfvg74" path="res://UI/planet.gdshader" id="3_fu7sn"]
+[ext_resource type="Shader" uid="uid://dnjawascs6kj" path="res://UI/lore_fadein.gdshader" id="5_glbon"]
+
+[sub_resource type="Shader" id="Shader_rhts7"]
+code = "shader_type canvas_item;
+
+uniform vec4 bg_color: source_color;
+uniform vec2 offset;
+uniform float bigStarSlow = 2.0;
+uniform float mediumStarSlow = 6.0;
+uniform float smallStarSlow = 10.0;
+
+uniform float smallStarAmount = 0.002;
+uniform float mediumStarAmount = 0.00;
+uniform float bigStarAmount = 0.00;
+
+float rand(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
+void fragment() {
+	vec2 normCoordBig = FRAGCOORD.xy+floor(offset/bigStarSlow);
+	vec2 normCoordMedium = FRAGCOORD.xy+floor(offset/mediumStarSlow);
+	vec2 normCoordSmall = FRAGCOORD.xy+floor(offset/smallStarSlow);
+	
+	float color = 0.0;
+	
+	float size = 20.0;
+	float prob = 1.0-mediumStarAmount;
+	vec2 pos = floor(1.0 / size * normCoordMedium);
+	float starValue = rand(pos);
+
+	// Draw medium Stars
+	if (starValue > prob)
+	{
+		vec2 center = size * pos + vec2(size, size) * 0.5;
+		float t = 0.9 + 0.2 * sin(TIME * 8.0 + (starValue - prob) / (1.0 - prob) * 45.0);
+		color = 1.0 - distance(normCoordMedium.xy, center) / (0.5 * size);
+		color = color * t / (abs(normCoordMedium.y - center.y)) * t / (abs(normCoordMedium.x - center.x));
+	}
+	
+	// Draw Big stars
+	size = 100.0;
+	prob = 1.0-bigStarAmount;
+	pos = floor(1.0 / size * normCoordBig);
+	starValue = rand(pos);
+
+	if (starValue > prob)
+	{
+		vec2 center = size * pos + vec2(size, size) * 0.5;
+		float t = 0.9 + 0.2 * sin(TIME * 8.0 + (starValue - prob) / (1.0 - prob) * 45.0);
+		color = 1.0 - distance(normCoordBig.xy, center) / (0.5 * size);
+		color = color * t / (abs(normCoordBig.y - center.y)) * t / (abs(normCoordBig.x - center.x));
+	}
+	
+	// Draw Small stars
+	if (rand(normCoordSmall / 20.0) > 1.0-smallStarAmount)
+	{
+		float r = rand(normCoordSmall);
+		color = r * (0.85 * sin(TIME * (r * 5.0) + 720.0 * r) + 0.95);
+	}
+	COLOR = vec4(vec3(color),color) + bg_color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7vrkn"]
+shader = SubResource("Shader_rhts7")
+shader_parameter/bg_color = Color(0, 0, 0, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/bigStarSlow = 2.0
+shader_parameter/mediumStarSlow = 6.0
+shader_parameter/smallStarSlow = 10.0
+shader_parameter/smallStarAmount = 0.002
+shader_parameter/mediumStarAmount = 0.0
+shader_parameter/bigStarAmount = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_7vrkn"]
+font = ExtResource("1_06t4h")
+font_size = 128
+
+[sub_resource type="LabelSettings" id="LabelSettings_fu7sn"]
+font = ExtResource("2_7vrkn")
+
+[sub_resource type="Animation" id="Animation_fu7sn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayMessage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_7vrkn"]
+resource_name = "blinking"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayMessage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fu7sn"]
+_data = {
+&"RESET": SubResource("Animation_fu7sn"),
+&"blinking": SubResource("Animation_7vrkn")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jix8l"]
+shader = ExtResource("3_fu7sn")
+shader_parameter/radius = 0.5
+shader_parameter/cell_amount = 9
+shader_parameter/period = Vector3(9.4, 9.5, 9.5)
+shader_parameter/tangerine = Color(0.034817904, 0.23477104, 0.046807833, 1)
+shader_parameter/sunset = Color(0.8836723, 0.67089784, 0.5024479, 1)
+shader_parameter/moonstone = Color(6.3773246e-07, 0.37203607, 0.18062973, 1)
+shader_parameter/ylnmn_blue = Color(0.13470918, 0.489722, 0.36127847, 1)
+shader_parameter/emerald = Color(0.120347194, 0.47743714, 0.29613623, 1)
+shader_parameter/cal_poly_green = Color(0.04803721, 0.25461978, 0.074767046, 1)
+
+[sub_resource type="Animation" id="Animation_jix8l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("planet:material:shader_parameter/radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("planet:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(450, 250)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Earth Insider"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Fadeout:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Lore:material:shader_parameter/time")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_glbon"]
+resource_name = "description_of_world"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("planet:material:shader_parameter/radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("planet:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.98099333, 2.1333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(450, 250), Vector2(450, 250), Vector2(450, -300)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Earth Insider"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.7, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Lore:material:shader_parameter/time")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2.3333333, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.57000005245209]
+}
+
+[sub_resource type="Animation" id="Animation_nlkkf"]
+resource_name = "from_description"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fadeout:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.06666672, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0.043039158, 0.04303915, 0.04303915, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_qe12f"]
+resource_name = "from_screen"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fadeout:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nlkkf"]
+_data = {
+&"RESET": SubResource("Animation_jix8l"),
+&"description_of_world": SubResource("Animation_glbon"),
+&"from_description": SubResource("Animation_nlkkf"),
+&"from_screen": SubResource("Animation_qe12f")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_glbon"]
+shader = ExtResource("5_glbon")
+shader_parameter/time = 0.0
+
+[node name="Menu" type="Control" unique_id=1094152752]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jix8l")
+
+[node name="stars" type="ColorRect" parent="." unique_id=150702067]
+material = SubResource("ShaderMaterial_7vrkn")
+layout_mode = 0
+offset_left = -2592.0
+offset_top = -1013.0
+offset_right = 4299.0
+offset_bottom = 2982.0
+color = Color(1, 1, 1, 0)
+
+[node name="Title" type="Label" parent="." unique_id=720799321]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.48200002
+anchor_right = 0.5
+anchor_bottom = 0.48200002
+offset_left = -291.5
+offset_top = -211.33603
+offset_right = 291.5
+offset_bottom = -114.33603
+grow_horizontal = 2
+grow_vertical = 2
+text = "Earth Insider"
+label_settings = SubResource("LabelSettings_7vrkn")
+
+[node name="PlayMessage" type="Label" parent="." unique_id=505059345]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -129.0
+offset_top = -61.0
+offset_right = 131.0
+offset_bottom = -43.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "ENTER, SPACE or CLICK to BEGIN"
+label_settings = SubResource("LabelSettings_fu7sn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayMessage" unique_id=986183398]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_fu7sn")
+autoplay = &"blinking"
+
+[node name="planet" type="ColorRect" parent="." unique_id=1007041820]
+material = SubResource("ShaderMaterial_jix8l")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -126.0
+offset_top = -74.0
+offset_right = 130.0
+offset_bottom = 182.00055
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Planet of The Mushrooms, Where you are called from"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2064505812]
+libraries/ = SubResource("AnimationLibrary_nlkkf")
+
+[node name="Lore" type="RichTextLabel" parent="." unique_id=51993920]
+material = SubResource("ShaderMaterial_glbon")
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 116.0
+offset_top = -283.0
+offset_right = -79.0
+offset_bottom = 247.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("2_7vrkn")
+theme_override_fonts/bold_font = ExtResource("2_7vrkn")
+theme_override_fonts/italics_font = ExtResource("1_06t4h")
+theme_override_fonts/mono_font = ExtResource("2_7vrkn")
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 40
+theme_override_font_sizes/bold_italics_font_size = 32
+theme_override_font_sizes/italics_font_size = 48
+bbcode_enabled = true
+text = "[b]Congratulations![/b]
+
+Your world has been selected as part of the expansion plans of the Mycological Empire
+
+We require more an updated database of the fauna available on your planet. You will help us.
+
+Please check in daily for tasks.
+
+[i]Kind Regards,										
+Orgimshplot[/i]									
+[code]Secretary of the King of the Mycological Empire[/code]						"
+autowrap_trim_flags = 0
+horizontal_alignment = 1
+
+[node name="Fadeout" type="ColorRect" parent="." unique_id=692591683]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -2583.0
+offset_top = -1088.0
+offset_right = 4283.0
+offset_bottom = 2927.0
+color = Color(0, 0, 0, 1)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
