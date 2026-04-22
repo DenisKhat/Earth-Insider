@@ -1,7 +1,8 @@
 extends Control
 var at_message: bool = false
 func _ready() -> void:
-	save.load_game()
+	#save.load_game()
+	music.play()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):

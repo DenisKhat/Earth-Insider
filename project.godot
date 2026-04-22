@@ -13,11 +13,16 @@ config_version=5
 config/name="Earth Insider"
 run/main_scene="uid://deo2lgi1uiwre"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://dkxmyj1bbexoc"
 
 [autoload]
 
 save="*uid://cyxm7stu8rt2s"
+music="*uid://byycd51mra4f3"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 

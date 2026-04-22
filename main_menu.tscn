@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://bsajhddu1w3lt" path="res://fonts/Terminal F4.ttf" id="2_7vrkn"]
 [ext_resource type="Shader" uid="uid://bgncadfdfvg74" path="res://UI/planet.gdshader" id="3_fu7sn"]
 [ext_resource type="Shader" uid="uid://dnjawascs6kj" path="res://UI/lore_fadein.gdshader" id="5_glbon"]
+[ext_resource type="Texture2D" uid="uid://dyl1oqkuktqtm" path="res://mushroom_body.png" id="6_nlkkf"]
 
 [sub_resource type="Shader" id="Shader_rhts7"]
 code = "shader_type canvas_item;
@@ -210,6 +211,42 @@ tracks/5/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MushroomBody:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.019882623, 0.019882623)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("MushroomBody:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(573, 248.00002)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("MushroomBody:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_glbon"]
 resource_name = "description_of_world"
@@ -274,9 +311,46 @@ tracks/4/keys = {
 "update": 0,
 "values": [0.0, 0.0, 1.57000005245209]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MushroomBody:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2.09, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(573, 248.00002), Vector2(573, -310), Vector2(986, 497)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MushroomBody:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("MushroomBody:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2.16, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.019882623, 0.019882623), Vector2(0.019882623, 0.019882623), Vector2(0.3, 0.3)]
+}
 
 [sub_resource type="Animation" id="Animation_nlkkf"]
 resource_name = "from_description"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -292,7 +366,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_qe12f"]
 resource_name = "from_screen"
-length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -385,7 +458,7 @@ anchor_bottom = 0.5
 offset_left = -126.0
 offset_top = -74.0
 offset_right = 130.0
-offset_bottom = 182.00055
+offset_bottom = 182.00092
 grow_horizontal = 2
 grow_vertical = 2
 tooltip_text = "Planet of The Mushrooms, Where you are called from"
@@ -417,25 +490,30 @@ theme_override_font_sizes/italics_font_size = 48
 bbcode_enabled = true
 text = "[b]Congratulations![/b]
 
-Your world has been selected as part of the expansion plans of the Mycological Empire
+Your world has discovered by the Mycoluxian empire and we would like to look at you!!!
 
-We require more an updated database of the fauna available on your planet. You will help us.
+We require an updated database of the fauna available on your planet to procceed! You will help us. Yes!!!
 
 Please check in daily for tasks.
 
-[i]Kind Regards,										
+[i]Merry Christmas,										
 Orgimshplot[/i]									
-[code]Secretary of the King of the Mycological Empire[/code]						"
+[code]Diplomat of the Myxocluxians[/code]						"
 autowrap_trim_flags = 0
 horizontal_alignment = 1
+
+[node name="MushroomBody" type="Sprite2D" parent="." unique_id=209677970]
+position = Vector2(573, 248.00002)
+scale = Vector2(0.019882623, 0.019882623)
+texture = ExtResource("6_nlkkf")
 
 [node name="Fadeout" type="ColorRect" parent="." unique_id=692591683]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
-offset_left = -2583.0
-offset_top = -1088.0
-offset_right = 4283.0
-offset_bottom = 2927.0
+offset_left = -2681.0
+offset_top = -1093.0
+offset_right = 4185.0
+offset_bottom = 2922.0
 color = Color(0, 0, 0, 1)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

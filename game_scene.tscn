@@ -1,6 +1,423 @@
 [gd_scene format=3 uid="uid://c4mtn0gwtgi4d"]
 
-[ext_resource type="Texture2D" uid="uid://b817irsptxbtu" path="res://icon.svg" id="1_mlf6e"]
+[ext_resource type="Script" uid="uid://7dfk37kai737" path="res://game_scene.gd" id="1_mj2jn"]
+[ext_resource type="PackedScene" uid="uid://bvtd8pde0tnf2" path="res://UI/status_bar.tscn" id="1_mlf6e"]
+[ext_resource type="FontFile" uid="uid://bt1wanqci0u0i" path="res://fonts/Handwriting-Regular.otf" id="2_po0ka"]
+[ext_resource type="FontFile" uid="uid://bsajhddu1w3lt" path="res://fonts/Terminal F4.ttf" id="3_v1wow"]
+[ext_resource type="Script" uid="uid://876rwj20hnj5" path="res://UI/word_entry.gd" id="4_mixcd"]
+[ext_resource type="Texture2D" uid="uid://dyl1oqkuktqtm" path="res://mushroom_body.png" id="6_kdryc"]
+[ext_resource type="AudioStream" uid="uid://7j6mr2tkp82x" path="res://sounds/lose.wav" id="7_e35lh"]
+[ext_resource type="AudioStream" uid="uid://dgcrl6uamuaag" path="res://sounds/win.wav" id="8_udeyl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1wow"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Animation" id="Animation_miq82"]
+resource_name = "Lose"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MushroomBody:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(4.0666666, 4.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.363, 0.363), Vector2(0.47468036, 0.4746803)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MushroomBody:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(4.0666666, 4.5, 4.8066664),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-1.0947409, 1.8099064343181197, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MushroomBody:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4.0666666, 4.786667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1090, 308), Vector2(554, 328)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LatinName:text")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(4.866667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Press Anywhere to Continue"]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Name:text")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(4.8566666),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Mmm... Are you sure you Earth Person?"]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Transition:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(4.9166665),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Transition:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(4.9166665, 5.733333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("TextureRect:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_kdryc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Transition:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TextureRect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TextureRect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("LatinName:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MushroomBody:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1090, 308.00003)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MushroomBody:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.0947409]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("MushroomBody:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.3632653, 0.36326528)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Name:text")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Yummy! Thanks!"]
+}
+
+[sub_resource type="Animation" id="Animation_6e45b"]
+resource_name = "Show Image"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_e35lh"]
+resource_name = "Show Latin"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LatinName:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_udeyl"]
+resource_name = "Win"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MushroomBody:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(4.033334, 4.266667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.363, 0.363), Vector2(0.47468036, 0.4746803)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MushroomBody:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(4.033334, 4.466667, 4.7733335),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-1.0947409, 1.8099064343181197, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MushroomBody:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4.033334, 4.7533336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1090, 308), Vector2(554, 328)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LatinName:text")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(4.8333335),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Press Anywhere To Continue"]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Name:text")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(4.8333335),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Yummy! Thanks!"]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Transition:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(4.8833337),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Transition:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(4.8833337, 5.7000003),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("TextureRect:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_mj2jn"]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Transition:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kdryc"]
+_data = {
+&"Lose": SubResource("Animation_miq82"),
+&"RESET": SubResource("Animation_kdryc"),
+&"Show Image": SubResource("Animation_6e45b"),
+&"Show Latin": SubResource("Animation_e35lh"),
+&"Win": SubResource("Animation_udeyl"),
+&"fade_in": SubResource("Animation_mj2jn")
+}
 
 [node name="GameScene" type="Control" unique_id=1519156721]
 layout_mode = 3
@@ -9,11 +426,126 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_mj2jn")
 
-[node name="Icon" type="Sprite2D" parent="." unique_id=1213315849]
-position = Vector2(151, 343)
-texture = ExtResource("1_mlf6e")
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1793849539]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
 
-[node name="Icon2" type="Sprite2D" parent="." unique_id=1429272407]
-position = Vector2(819, 258)
-texture = ExtResource("1_mlf6e")
+[node name="status_bar" parent="." unique_id=1852202390 instance=ExtResource("1_mlf6e")]
+position = Vector2(70, 320)
+
+[node name="WordEntry" type="LineEdit" parent="." unique_id=1660897374]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -98.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.96474224, 0.96474224, 0.9647421, 1)
+theme_override_colors/caret_color = Color(0.6483593, 0.9995616, 0.6048438, 1)
+theme_override_fonts/font = ExtResource("3_v1wow")
+theme_override_font_sizes/font_size = 52
+theme_override_styles/focus = SubResource("StyleBoxFlat_v1wow")
+placeholder_text = "okay typing begins please..."
+alignment = 1
+max_length = 30
+context_menu_enabled = false
+emoji_menu_enabled = false
+backspace_deletes_composite_character_enabled = true
+drag_and_drop_selection_enabled = false
+flat = true
+script = ExtResource("4_mixcd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1130364213]
+libraries/ = SubResource("AnimationLibrary_kdryc")
+autoplay = &"fade_in"
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1018392078]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -191.0
+offset_top = -173.0
+offset_right = 189.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="." unique_id=1886894772]
+layout_mode = 0
+offset_left = 219.0
+offset_top = 428.0
+offset_right = 957.0
+offset_bottom = 547.0
+theme_override_fonts/font = ExtResource("3_v1wow")
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="Lose" type="AudioStreamPlayer" parent="." unique_id=184175057]
+stream = ExtResource("7_e35lh")
+volume_db = -1.0
+
+[node name="Win" type="AudioStreamPlayer" parent="." unique_id=1347973506]
+stream = ExtResource("8_udeyl")
+
+[node name="Transition" type="ColorRect" parent="." unique_id=1104961856]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="LatinName" type="Label" parent="." unique_id=1309153977]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -232.0
+offset_bottom = -195.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_po0ka")
+theme_override_font_sizes/font_size = 48
+text = "Press Anywhere to Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="RichTextLabel" parent="." unique_id=965728178]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 85.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("3_v1wow")
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "Yummy! Thanks!"
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="MushroomBody" type="Sprite2D" parent="." unique_id=1098088670]
+position = Vector2(1090, 308.00003)
+rotation = -1.0947409
+scale = Vector2(0.3632653, 0.36326528)
+texture = ExtResource("6_kdryc")
+
+[connection signal="text_changed" from="WordEntry" to="WordEntry" method="_on_text_changed"]
+[connection signal="text_submitted" from="WordEntry" to="." method="_on_word_entry_text_submitted"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

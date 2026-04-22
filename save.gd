@@ -1,8 +1,9 @@
 extends Node
 var new_player: bool = true
 var discovered = []
-var day = []
+var day = 0
 func load_game():
+	
 	if not FileAccess.file_exists("user://save.json"):
 		DirAccess.copy_absolute("res://save_template.json","user://save.json")
 	

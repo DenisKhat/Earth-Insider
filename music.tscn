@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://byycd51mra4f3"]
+
+[ext_resource type="Script" uid="uid://c6ei5wdhbyuur" path="res://music.gd" id="1_3h6ak"]
+[ext_resource type="AudioStream" uid="uid://d6yqnaejhtub" path="res://sounds/LittleMushroomPlanet.wav" id="1_5vxup"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" unique_id=1564601691]
+stream = ExtResource("1_5vxup")
+script = ExtResource("1_3h6ak")
